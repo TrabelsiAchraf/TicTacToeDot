@@ -41,7 +41,6 @@ struct BoardGameView: View {
                         }
                     }
                 }
-                
             }
             
             ScroreView(timer: gameTimer.timerStr, isXPlaying: $isXPlaying, score: $score)
