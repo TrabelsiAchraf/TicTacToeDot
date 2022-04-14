@@ -73,12 +73,28 @@ struct BoardGameView: View {
                   dismissButton: .destructive(Text("Play Again"), action: { resetRound() })
             )
         }
+        .alert(isPresented: $gameTimer.isGameOver) {
+            Alert(title: Text("Game Over"),
+                  message: Text(checkGameWinner()),
+                  dismissButton: .destructive(Text("Play Again"), action: { play() })
+            )
+        }
     }
 }
 
 // MARK: - Game Engine
 
 extension BoardGameView {
+    private func checkGameWinner() -> String {
+        if score.xPlayer > score.oPlayer {
+            return "Winner: Player X \(score.xPlayer)/\(score.oPlayer) !"
+        } else if score.xPlayer < score.oPlayer {
+            return "Winner: Player 0 \(score.xPlayer)/\(score.oPlayer) !"
+        } else {
+            return "No winner for this game !"
+        }
+    }
+    
     private func checkWinner() {
         if checkMoves(player: .xPlayer) {
             message = PlayerSymbol.xPlayer.winDescription
@@ -131,6 +147,7 @@ extension BoardGameView {
     }
     
     private func play() {
+        resetGame()
         gameTimer.start()
     }
     
